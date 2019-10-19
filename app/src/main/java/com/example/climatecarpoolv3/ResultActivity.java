@@ -1,7 +1,9 @@
 package com.example.climatecarpoolv3;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +13,9 @@ import static android.graphics.Color.rgb;
 public class ResultActivity extends AppCompatActivity {
 
     private TextView scaleText, messageText;
-    private Button rout
+    private Button routeButton;
 
-
-
-        eButton;
+    private ImageView vehicleImage;
 
     private final int AQI = (int) (Math.random() * 501);
 
@@ -24,23 +24,57 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        routeButton = findViewById(R.id.route);
+
         scaleText = findViewById(R.id.scale);
         messageText = findViewById(R.id.message);
 
+        vehicleImage = findViewById(R.id.vehicle);
+
         scaleText.setTextColor(rgb(86, 171, 185));
 
-        if(AQI >= 0 && AQI <= 50) messageText.setText("Gas powered automobile (Good)");
-        if(AQI >= 51 && AQI <= 100) messageText.setText("Ride-sharing service or carpool (Moderate)");
-        if(AQI >= 101 && AQI <= 150) messageText.setText("Bus or train/subway (Unhealthy for sensitive groups)");
-        if(AQI >= 151 && AQI <= 200) messageText.setText("Bike, walk, or electric vehicles (Unhealthy)");
-        if(AQI >= 201 && AQI <= 300) messageText.setText("Bike, walk, or electric vehicles (Very unhealthy)");
-        if(AQI >= 301) messageText.setText("Bike, walk, or electric vehicles (hazardous)");
+        if(AQI >= 0 && AQI <= 50){
+            messageText.setText("Car");
+            scaleText.setText(AQI + " (Good)");
+            vehicleImage.setImageResource(R.drawable.car);
+        }
+        if(AQI >= 51 && AQI <= 100){
+            messageText.setText("Ride-Sharing Service or Carpool");
+            scaleText.setText(AQI + " (Moderate)");
+            vehicleImage.setImageResource(R.drawable.carpool);
+        }
+        if(AQI >= 101 && AQI <= 150){
+            messageText.setText("Bus or Train/Subway");
+            scaleText.setText(AQI + " (Unhealthy for sensitive groups)");
+            vehicleImage.setImageResource(R.drawable.bus_train);
+        }
+        if(AQI >= 151 && AQI <= 200){
+            messageText.setText("Bike, walk, or electric vehicles");
+            scaleText.setText(AQI + " (Unhealthy)");
+            vehicleImage.setImageResource(R.drawable.walk_bike);
+        }
+        if(AQI >= 201 && AQI <= 300){
+            messageText.setText("Bike, walk, or electric vehicles");
+            scaleText.setText(AQI + " (Very Unhealthy)");
+            vehicleImage.setImageResource(R.drawable.walk_bike);
+        }
+        if(AQI >= 301){
+            messageText.setText("Bike, walk, or electric vehicles");
+            scaleText.setText(AQI + " (Hazardous)");
+            vehicleImage.setImageResource(R.drawable.walk_bike);
+        }
 
-        scaleText.setText("AQI = " + AQI);
-
-        messageText.setTextColor(rgb(114, 114, 114));
 
 
+        messageText.setTextColor(rgb(0, 0, 0));
+
+        routeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(this, RouteActivity.class);
+                //startActivity(intent);
+            }
+        });
 
     }
 

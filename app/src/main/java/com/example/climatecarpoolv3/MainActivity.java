@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.HashMap;
-
 import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,17 +17,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText fromAddressText, toAddressText;
     private Button enter;
 
-    private boolean isError;
+    private boolean isError, doneTyping;
 
     private String fromAddress, toAddress;
-
-    private int key;
-    private HashMap<Integer, String> map = new HashMap<Integer, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        doneTyping = false;
 
         fromAddressText = findViewById(R.id.from);
         toAddressText = findViewById(R.id.destination);

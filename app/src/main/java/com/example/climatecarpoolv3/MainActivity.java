@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText fromAddressText, toAddressText;
     private Button enter;
 
-    private boolean isError, doneTyping;
+    private boolean isError;
 
     private String fromAddress, toAddress;
 
@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        doneTyping = false;
 
         fromAddressText = findViewById(R.id.from);
         toAddressText = findViewById(R.id.destination);

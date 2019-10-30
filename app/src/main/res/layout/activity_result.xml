@@ -7,38 +7,61 @@
     tools:context=".ResultActivity">
 
     <TextView
+        android:id="@+id/resultsTextView"
+        android:layout_width="155dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#00CC2323"
+        android:gravity="center"
+        android:text="Results"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/scale"
-        android:layout_width="382dp"
-        android:layout_height="75dp"
+        android:layout_width="376dp"
+        android:layout_height="59dp"
         android:layout_marginStart="117dp"
         android:layout_marginLeft="117dp"
         android:layout_marginEnd="117dp"
         android:layout_marginRight="117dp"
         android:gravity="center_horizontal"
-        android:text="999"
+        android:text="999 (Unhealthy for sensitive groups)"
         android:textColor="#000000"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/averageAQI" />
 
     <TextView
         android:id="@+id/message"
-        android:layout_width="392dp"
-        android:layout_height="94dp"
+        android:layout_width="365dp"
+        android:layout_height="88dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_horizontal"
         android:textColor="#000000"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/vehicle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transportation"
-        tools:text="Bus or train/subway (Unhealthy for sensitive groups)" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Bus or train/subway" />
 
     <Button
         android:id="@+id/route"
@@ -48,12 +71,12 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="52dp"
         android:background="@drawable/edittext_rounded_corners_border"
         android:text="Route"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -62,21 +85,22 @@
         android:layout_height="58dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:text="Average AQI:"
         android:textColor="#000000"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/transportation"
-        android:layout_width="300dp"
-        android:layout_height="108dp"
+        android:layout_width="387dp"
+        android:layout_height="72dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -84,9 +108,9 @@
         android:gravity="center"
         android:text="Recommended Transportation:"
         android:textColor="#000000"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scale" />
 
@@ -96,15 +120,14 @@
         android:layout_height="141dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="71dp"
+        android:layout_marginBottom="24dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/route"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message"
         app:srcCompat="@drawable/car" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.climatecarpoolv3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private ImageView vehicleImage;
 
-    private final int AQI = (int) (Math.random() * 501);
+    public static int AQI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +72,17 @@ public class ResultActivity extends AppCompatActivity {
         routeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(this, RouteActivity.class);
-                //startActivity(intent);
+                openMapActivity();
             }
         });
 
     }
 
+    public void openMapActivity(){
 
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+
+    }
 
 }

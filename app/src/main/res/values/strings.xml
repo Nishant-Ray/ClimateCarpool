@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ClimateCarpoolV3</string>
+    <string name="app_name">Climate Carpool</string>
     <string name="apiKey">AIzaSyB69tn9TGIJD15q83meVE04Zi0Xl6Vfc-w</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings2">Settings</string>

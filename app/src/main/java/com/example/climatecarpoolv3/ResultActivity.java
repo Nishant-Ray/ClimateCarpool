@@ -65,8 +65,6 @@ public class ResultActivity extends AppCompatActivity {
             vehicleImage.setImageResource(R.drawable.walk_bike);
         }
 
-
-
         messageText.setTextColor(rgb(0, 0, 0));
 
         routeButton.setOnClickListener(new View.OnClickListener() {

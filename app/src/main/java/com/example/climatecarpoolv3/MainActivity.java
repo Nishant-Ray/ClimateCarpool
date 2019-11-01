@@ -33,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView errorText;
     private Button enter;
-    private ImageButton settingsButton;
+    private ImageButton settingsButton, homeButton, workButton;
 
     private boolean isError;
 
-    public String toAddress, city = "Undefined";
+    public String toAddress;
+    public String destLatLng = "(0, 0)"; //, city = "Undefined";
+    public double destLat = 0.0, destLong = 0.0;
 
     private PlacesClient placesClient;
 
@@ -63,22 +65,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(@NonNull  Place place) {
                 String str = place.toString();
-                Log.i("PLACE INFO", str);
-                toAddress = place.toString().substring(str.indexOf("address=") + 8, str.indexOf("attributions=") - 2);
-                Log.i("PLACE ADDRESS", toAddress);
+                Log.i("PLACE! INFO", str);
+                toAddress = str.substring(str.indexOf("address=") + 8, str.indexOf("attributions=") - 2);
+                Log.i("PLACE! ADDRESS", toAddress);
 
-                city = toAddress.substring(toAddress.indexOf(",") + 2, toAddress.indexOf(",", toAddress.indexOf(",") + 2));
+                destLatLng = str.substring(str.indexOf("latLng=lat/lng:") + 16, str.indexOf("name=") - 2);
+                destLat = Double.parseDouble(destLatLng.substring(1, destLatLng.indexOf(",")));
+                destLong = Double.parseDouble(destLatLng.substring(destLatLng.indexOf(",") + 1, destLatLng.length() - 1));
+                Log.i("PLACE! LAT/LNG", destLatLng);
+
+                new GetAQITask().execute(destLatLng);
             }
 
 
-            /*
-            Place{address=10100 Finch Ave, Cupertino, CA 95014, USA, attributions=[], id=ChIJOfgIZH-2j4ARfN8hMUB-lUM, latLng=lat/lng: (37.3194327,-122.0091231), name=Cupertino High School, openingHours=null, phoneNumber=null, photoMetadatas=null, plusCode=null, priceLevel=null, rating=null, types=null, userRatingsTotal=null, viewport=null, websiteUri=null}
-            Place{address=10601 S De Anza Blvd #108, Cupertino, CA 95014, USA, attributions=[], id=ChIJRznvzAC1j4ARdEs5EP7tkLs, latLng=lat/lng: (37.3141452,-122.0326681), name=Jr. Programmer, openingHours=null, phoneNumber=null, photoMetadatas=null, plusCode=null, priceLevel=null, rating=null, types=null, userRatingsTotal=null, viewport=null, websiteUri=null}
-             */
-
             @Override
             public void onError(@NonNull Status status) {
-                Log.i("PLACE", "An error occurred: " + status);
+                Log.i("PLACE!", "An error occurred: " + status);
+
+                new ResultActivity().AQI = (int)(Math.random() * 501);
             }
         });
 
@@ -89,13 +93,45 @@ public class MainActivity extends AppCompatActivity {
         errorText = findViewById(R.id.error);
         enter = findViewById(R.id.enterButton);
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
+        homeButton = findViewById(R.id.home);
+        workButton = findViewById(R.id.work);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsActivity sA = new SettingsActivity();
 
-                openSettingsActivity();
+                if(sA.homeLatLng.equals("Undefined")) openSettingsActivity();
+                else {
+                    Log.i("PLACE! LatLng", "" + sA.homeLatLng);
+                    new GetAQITask().execute(sA.homeLatLng);
+                    toAddress = sA.homeAddress;
+                    autocompleteSupportFragment.setText("Home: " + toAddress);
+                    //openResultActivity();
 
+                }
             }
+        });
+
+        workButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsActivity sA = new SettingsActivity();
+
+                if(sA.workLatLng.equals("Undefined")) openSettingsActivity();
+                else {
+                    Log.i("PLACE! LatLng", "" + sA.workLatLng);
+                    new GetAQITask().execute(sA.workLatLng);
+                    toAddress = sA.workAddress;
+                    autocompleteSupportFragment.setText("Work: " + toAddress);
+                    //openResultActivity();
+                }
+            }
+        });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { openSettingsActivity(); }
 
         });
 
@@ -114,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new GetAQITask().execute(city);
+        //new GetAQITask().execute(destLatLng);
 
     }
 
@@ -138,14 +174,23 @@ public class MainActivity extends AppCompatActivity {
 
 class GetAQITask extends AsyncTask<String, Void, Integer> {
 
-    protected Integer doInBackground(String... city) {
+    protected Integer doInBackground(String... latLng) {
 
         try {
-            URL url = new URL("https://api.waqi.info/feed/" + city[0] + "/?token=edfe97da4ab3f58b8a5da3e5bf8e627aa9335070");
+
+            double lat = Double.parseDouble(latLng[0].substring(1, latLng[0].indexOf(",")));
+            double lng = Double.parseDouble(latLng[0].substring(latLng[0].indexOf(",") + 1, latLng[0].length() - 1));
+
+            lat = Math.round(lat * 10000) / 10000.0;
+            lng = Math.round(lng * 10000) / 10000.0;
+
+            URL url = new URL("https://api.waqi.info/feed/geo:" + lat + ";" + lng + "/?token=edfe97da4ab3f58b8a5da3e5bf8e627aa9335070");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String jsonStr = in.readLine();
             String aqiString = "";
+
+            Log.i("PLACE! JSON LINE", jsonStr);
 
             if (jsonStr.indexOf("aqi") >= 0) {
 
@@ -157,21 +202,17 @@ class GetAQITask extends AsyncTask<String, Void, Integer> {
                 }
                 in.close();
 //                Log.e("JSON LINE", jsonStr);
-//                Log.e("CITY", city[0]);
                 return Integer.parseInt(aqiString);
 
             }
 //            Log.e("JSON LINE", jsonStr);
-//            Log.e("CITY", city[0]);
             return (int)(Math.random() * 501);
-            //ResultActivity.AQI = Integer.parseInt(apiString);
 
         } catch (IOException exception){
-//            Log.e("JSON LINE", "IOException");
-//            Log.e("CITY", city[0]);
+            Log.i("PLACE! EXCEPTION", "IOException");
+            Log.i("PLACE! ERROR", Log.getStackTraceString(new IOException()));
             return (int)(Math.random() * 501);
         }
-
 
     }
 
